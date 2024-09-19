@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration</title>
+  <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+<h1>Register User</h1>
+<form id="userForm">
+  <label for="id">ID:</label>
+  <input type="text" id="id" name="id"><br>
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name"><br>
+  <label for="age">Age:</label>
+  <input type="number" id="age" name="age"><br>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  $(document).ready(function() {
+    $("#userForm").submit(function(event) {
+      event.preventDefault();
+
+      const userData = {
+        id: $("#id").val(),
+        name: $("#name").val(),
+        age: $("#age").val()
+      };
+
+      $.ajax({
+        type: "POST",
+        url: "/api/users",
+        data: JSON.stringify(userData),
+        contentType: "application/json",
+        success: function(response) {
+          alert("User registered: " + response.name);
+        },
+        error: function(error) {
+          alert("Error: " + error.responseText);
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
